@@ -1,7 +1,7 @@
-import csv
-import math
 import sys
 import os
+import csv
+import math
 
 
 class Statistics:
@@ -41,21 +41,12 @@ class Statistics:
 
 
     def Sort(self):
-        if not self.sorted :
+        if not self.sorted:
+            self.list = [x for x in self.list if x]
             self.list.sort()
             self.sorted = True
         else:
             pass
-
-
-    def Max(self):
-        self.Sort()
-        return self.list[-1]
-
-
-    def Min(self):
-        self.Sort()
-        return self.list[0]
 
 
     def Quartile(self, percentage):
@@ -65,8 +56,6 @@ class Statistics:
             return self.list[math.floor(percentage * N)]
         else:
             return (self.list[math.floor(percentage * N)] + self.list[math.floor(percentage * N)+1])/2
-
-
 
 
 
@@ -129,7 +118,6 @@ class DataSet:
 
 
     def computeStatistics(self):
-
         self.summary = []
 
         for col_nb in range(len(self.data_set[0])):
@@ -152,39 +140,28 @@ class DataSet:
 
 
     def printSummary(self):
-        # TODO: improve the print function
-
-
-        #col_names = tuple([' '] + [elt['col_name'] for elt in self.summary])
-        Count = tuple(['Count'] + [elt['Count'] for elt in self.summary])
-        Mean = tuple(['Mean'] + [elt['Mean'] for elt in self.summary])
-        Std = tuple(['Std'] + [elt['Std'] for elt in self.summary])
-        Min = tuple(['Min'] + [elt['Min'] for elt in self.summary])
-        fst_quartile = tuple(['25%'] + [elt['25%'] for elt in self.summary])
-        scd_quartile = tuple(['50%'] + [elt['50%'] for elt in self.summary])
-        trd_quartile = tuple(['75%'] + [elt['75%'] for elt in self.summary])
-        Max = tuple(['Max'] + [elt['Max'] for elt in self.summary])
-
-
-
-
         rows, columns = os.popen('stty size', 'r').read().split()
         columns = int(columns)
-        cell_size = 30
-        template = '{:<%ds}|' % cell_size
-        columns_bis = (columns - cell_size) // cell_size
+        cell_size = max([len(elt['Feature']) for elt in self.summary]) + 2
+        template = '{:<%ds}| ' % cell_size
+        columns_bis = (columns - cell_size - 1) // (cell_size+1)
 
 
         nb_features = len(self.summary)
         rows_bis = nb_features // columns_bis + 1
 
 
-        for i in range(rows_bis):
+        for i in range(rows_bis-1):
             for row_name in ['Feature','Count','Mean','Std','Min','25%','50%','75%','Max']:
                 to_print = template.format(row_name)
 
                 for k in range(columns_bis):
-                    to_print += template.format(str(self.summary[i*columns_bis+k][row_name]))
+                    if row_name == 'Feature':
+                        to_print += template.format(str(self.summary[i*columns_bis+k][row_name]))
+                    else:
+                        to_print += template.format(str(
+                            round(self.summary[i * columns_bis + k][row_name],3)
+                        ))
 
                 sys.stdout.write(to_print+'\n')
 
@@ -198,11 +175,8 @@ class DataSet:
 
 
 
-if __name__ == '__main__' :
-
-    '''
-    You have to run python3
-    '''
+if __name__=='__main__':
+    '''You have to run it with python3'''
 
     file_name = sys.argv[1]
     dirname = os.path.dirname(__file__)
@@ -212,8 +186,3 @@ if __name__ == '__main__' :
     d.loadDataSet()
     d.computeStatistics()
     d.printSummary()
-
-
-
-    print(rows)
-    print(columns)
