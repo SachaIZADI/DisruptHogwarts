@@ -134,14 +134,11 @@ class DataSet:
 
         for col_nb in range(len(self.data_set[0])):
             if self.isNumericFeature(col_nb):
-
-                # TODO: Code is broken here
-
                 column = self.extractColumn(col_nb, convert_to_float=True)
                 stats = Statistics(column[1:])
 
                 col_summary = {}
-                col_summary['col_name'] = column[0]
+                col_summary['Feature'] = column[0]
                 col_summary['Count'] = stats.Count()
                 col_summary['Mean'] = stats.Mean()
                 col_summary['Std'] = stats.Std()
@@ -157,14 +154,8 @@ class DataSet:
     def printSummary(self):
         # TODO: improve the print function
 
-        n = len(self.summary) + 1
 
-        template = ''
-
-        for i in range(n) :
-            template += '%s \t '
-
-        col_names = tuple([' '] + [elt['col_name'] for elt in self.summary])
+        #col_names = tuple([' '] + [elt['col_name'] for elt in self.summary])
         Count = tuple(['Count'] + [elt['Count'] for elt in self.summary])
         Mean = tuple(['Mean'] + [elt['Mean'] for elt in self.summary])
         Std = tuple(['Std'] + [elt['Std'] for elt in self.summary])
@@ -175,18 +166,35 @@ class DataSet:
         Max = tuple(['Max'] + [elt['Max'] for elt in self.summary])
 
 
-        to_print = \
-            template % col_names + '\n' + \
-            template % Count + '\n' + \
-            template % Mean + '\n' + \
-            template % Std + '\n' + \
-            template % Min + '\n' + \
-            template % fst_quartile + '\n' + \
-            template % scd_quartile + '\n' + \
-            template % trd_quartile + '\n' + \
-            template % Max + '\n'
 
-        return(to_print)
+
+        rows, columns = os.popen('stty size', 'r').read().split()
+        columns = int(columns)
+        cell_size = 30
+        template = '{:<%ds}|' % cell_size
+        columns_bis = (columns - cell_size) // cell_size
+
+
+        nb_features = len(self.summary)
+        rows_bis = nb_features // columns_bis + 1
+
+
+        for i in range(rows_bis):
+            for row_name in ['Feature','Count','Mean','Std','Min','25%','50%','75%','Max']:
+                to_print = template.format(row_name)
+
+                for k in range(columns_bis):
+                    to_print += template.format(str(self.summary[i*columns_bis+k][row_name]))
+
+                sys.stdout.write(to_print+'\n')
+
+                if row_name == 'Feature':
+                    line = ''
+                    for z in range(int(columns)):
+                        line += '-'
+                    sys.stdout.write(line + '\n')
+
+            sys.stdout.write('\n'+'\n')
 
 
 
@@ -203,4 +211,9 @@ if __name__ == '__main__' :
     d = DataSet(file_name)
     d.loadDataSet()
     d.computeStatistics()
-    sys.stdout.write(d.printSummary())
+    d.printSummary()
+
+
+
+    print(rows)
+    print(columns)
