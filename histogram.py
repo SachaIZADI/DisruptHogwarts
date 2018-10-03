@@ -1,5 +1,8 @@
+import sys
+import os
 import matplotlib.pyplot as plt
-from describe import DataSet
+import numpy as np
+from describe import DataSet, Statistics
 
 
 class HistogramPerHouse:
@@ -8,16 +11,43 @@ class HistogramPerHouse:
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
 
-    def plot(self, col_nb):
+    def Plot(self, col_nb):
         feature = self.data_set.extractColumn(col_nb=col_nb, convert_to_float=True)[1:]
         houses = self.data_set.extractColumn(col_nb=1)[1:]
 
         to_plot = {}
 
         for i in range(len(houses)):
-            try :
+            try:
                 to_plot[houses[i]] += [feature[i]]
-            except :
+            except:
                 to_plot[houses[i]] = [feature[i]]
 
-        return to_plot
+
+        full_list = []
+        unique_houses = set(houses)
+        for house in unique_houses:
+            full_list += to_plot[house]
+        s = Statistics(full_list)
+        min = s.Quartile(0)
+        max = s.Quartile(1)
+        bins = np.linspace(min, max, 100)
+
+        plt.figure(figsize=(10, 5))
+
+        for house in unique_houses:
+            plt.hist(to_plot[house], bins, alpha=0.5, label=house)
+
+        plt.legend(loc='upper right')
+        plt.title('Histogram of %s grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
+        plt.show(block=True)
+
+
+
+if __name__=='__main__':
+    '''You have to run it with python3'''
+
+    col_nb = sys.argv[1]
+    h = HistogramPerHouse()
+    h.Plot(int(col_nb))
+
