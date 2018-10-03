@@ -7,9 +7,10 @@ from describe import DataSet, Statistics
 
 class HistogramPerHouse:
 
-    def __init__(self, path_to_data_set='resources/dataset_train.csv'):
+    def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True):
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
+        self.legend = legend
 
     def Plot(self, col_nb):
         feature = self.data_set.extractColumn(col_nb=col_nb, convert_to_float=True)[1:]
@@ -46,11 +47,11 @@ class HistogramPerHouse:
         for house in unique_houses:
             plt.hist(to_plot[house], bins, alpha=0.5, label=house, color=colors[house])
 
-        plt.legend(loc='upper right')
-        plt.title('Histogram of "%s" grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
-        plt.xlabel("Grade")
-        plt.ylabel("Count")
-        plt.show(block=True)
+        if self.legend :
+            plt.legend(loc='upper right')
+            plt.title('Histogram of "%s" grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
+            plt.xlabel("Grade")
+            plt.ylabel("Count")
 
 
 
@@ -63,5 +64,6 @@ if __name__=='__main__':
 
     h = HistogramPerHouse()
     h.Plot(col_nb)
+    plt.show(block=True)
 
 

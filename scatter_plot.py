@@ -7,9 +7,10 @@ from describe import DataSet, Statistics
 
 class ScatterPlotPerHouse:
 
-    def __init__(self, path_to_data_set='resources/dataset_train.csv'):
+    def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True):
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
+        self.legend = legend
 
     def Plot(self, col_nb_1, col_nb_2):
         feature_1 = self.data_set.extractColumn(col_nb=col_nb_1, convert_to_float=True)[1:]
@@ -52,12 +53,12 @@ class ScatterPlotPerHouse:
                         label=house,
                         s=10)
 
-        plt.legend(loc='upper right')
-        plt.title('Scatter plot of "%s" vs "%s" grades among the different Hogwarts houses'
-                  % (self.data_set.data_set[0][col_nb_1],self.data_set.data_set[0][col_nb_2]))
-        plt.xlabel(self.data_set.data_set[0][col_nb_1])
-        plt.ylabel(self.data_set.data_set[0][col_nb_2])
-        plt.show(block=True)
+        if self.legend:
+            plt.legend(loc='upper right')
+            plt.title('Scatter plot of "%s" vs "%s" grades among the different Hogwarts houses'
+                      % (self.data_set.data_set[0][col_nb_1],self.data_set.data_set[0][col_nb_2]))
+            plt.xlabel(self.data_set.data_set[0][col_nb_1])
+            plt.ylabel(self.data_set.data_set[0][col_nb_2])
 
 
 
@@ -72,3 +73,4 @@ if __name__=='__main__':
 
     sc = ScatterPlotPerHouse()
     sc.Plot(col_nb_1, col_nb_2)
+    plt.show(block=True)
