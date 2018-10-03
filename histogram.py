@@ -7,10 +7,11 @@ from describe import DataSet, Statistics
 
 class HistogramPerHouse:
 
-    def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True):
+    def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True, granularity=100):
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
         self.legend = legend
+        self.granularity=granularity
 
     def Plot(self, col_nb):
         feature = self.data_set.extractColumn(col_nb=col_nb, convert_to_float=True)[1:]
@@ -33,7 +34,7 @@ class HistogramPerHouse:
         s = Statistics(full_list)
         min = s.Quartile(0)
         max = s.Quartile(1)
-        bins = np.linspace(min, max, 100)
+        bins = np.linspace(min, max, self.granularity)
 
         colors = {
             'Hufflepuff':'c',

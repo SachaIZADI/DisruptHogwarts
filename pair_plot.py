@@ -23,10 +23,12 @@ class PairPlot:
 
     def Plot(self):
 
-
-        # ca merde ici
+        # ajouter les labels
+        # titre
+        #
 
         plt.figure(figsize=(8, 8))
+        plt.suptitle("Pair Plot")
 
         N = len(self.numeric_features[:3])
 
@@ -34,14 +36,13 @@ class PairPlot:
             for j in range(N):
                 plt.subplot(N, N, 1+j+i*N)
                 if i == j:
-                    h = HistogramPerHouse(path_to_data_set=self.path_to_data_set, legend=False)
+                    h = HistogramPerHouse(path_to_data_set=self.path_to_data_set, legend=False, granularity=30)
                     h.Plot(self.numeric_features[i])
                 else:
-                    sc = ScatterPlotPerHouse(path_to_data_set=self.path_to_data_set, legend=False)
+                    sc = ScatterPlotPerHouse(path_to_data_set=self.path_to_data_set, legend=False, size=1)
                     sc.Plot(self.numeric_features[i],self.numeric_features[j])
 
 
-        plt.show(block=True)
 
 
 

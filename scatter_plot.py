@@ -7,10 +7,11 @@ from describe import DataSet, Statistics
 
 class ScatterPlotPerHouse:
 
-    def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True):
+    def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True, size=10):
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
         self.legend = legend
+        self.size = size
 
     def Plot(self, col_nb_1, col_nb_2):
         feature_1 = self.data_set.extractColumn(col_nb=col_nb_1, convert_to_float=True)[1:]
@@ -45,12 +46,12 @@ class ScatterPlotPerHouse:
 
 
         for house in unique_houses:
-            plt.scatter(x=to_plot['feature_1'][house],
-                        y=to_plot['feature_2'][house],
+            plt.scatter(x=to_plot['feature_2'][house],
+                        y=to_plot['feature_1'][house],
                         c=colors[house],
                         alpha=0.5,
                         label=house,
-                        s=10)
+                        s=self.size)
 
         if self.legend:
             plt.legend(loc='upper right')

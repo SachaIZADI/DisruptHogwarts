@@ -61,6 +61,8 @@ class Statistics:
 
 class DataSet:
 
+    # TODO : take into account the birthday
+
     def __init__(self, path_to_data_set, separator=','):
         self.path_to_data_set = path_to_data_set
         self.separator = separator
