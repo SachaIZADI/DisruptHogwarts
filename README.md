@@ -5,7 +5,7 @@ Input: Run `python3 describe.py resources/dataset_train.csv` in your terminal
 
 Output: 
 
-<img src = "img/stdout.png" height="90">
+<img src = "img/stdout.png" height="150">
 
 
 ## DataViz
@@ -14,18 +14,18 @@ Input: Run `python3 histogram.py` in your terminal
 
 Output: 
 
-<img src = "img/hist.png" height="100">
+<img src = "img/hist.png" height="150">
 
 ### Scatter plot
 Input: Run `python3 scatter_plot.py` in your terminal
 
 Output: 
 
-<img src = "img/scatter.png" height="100">
+<img src = "img/scatter.png" height="150">
 
 ### Pair plot
 Input: Run `python3 pair_plot.py` in your terminal
 
 Output: 
 
-<img src = "img/pairplot.png" height="100">
+<img src = "img/pairplot.png" height="150">
