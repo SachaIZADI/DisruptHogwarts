@@ -22,31 +22,19 @@ class ScatterPlotPerHouse:
                    }
 
         for i in range(len(houses)):
-            try:
-                to_plot['feature_1'][houses[i]] += [feature_1[i]]
-            except:
-                to_plot['feature_1'][houses[i]] = [feature_1[i]]
+            if feature_1[i] and feature_2[i] :
+                try:
+                    to_plot['feature_1'][houses[i]] += [feature_1[i]]
+                except:
+                    to_plot['feature_1'][houses[i]] = [feature_1[i]]
 
-            try:
-                to_plot['feature_2'][houses[i]] += [feature_2[i]]
-            except:
-                to_plot['feature_2'][houses[i]] = [feature_2[i]]
+                try:
+                    to_plot['feature_2'][houses[i]] += [feature_2[i]]
+                except:
+                    to_plot['feature_2'][houses[i]] = [feature_2[i]]
+
 
         unique_houses = set(houses)
-
-        """
-
-        full_list = []
-        
-        for house in unique_houses:
-            full_list += to_plot[house]
-
-        s = Statistics(full_list)
-        min = s.Quartile(0)
-        max = s.Quartile(1)
-        bins = np.linspace(min, max, 100)
-        """
-
         colors = {
             'Hufflepuff':'c',
             'Ravenclaw':'orange',
@@ -57,10 +45,18 @@ class ScatterPlotPerHouse:
         plt.figure(figsize=(10, 5))
 
         for house in unique_houses:
-            plt.hist(to_plot[house], bins, alpha=0.5, label=house, color=colors[house])
+            plt.scatter(x=to_plot['feature_1'][house],
+                        y=to_plot['feature_2'][house],
+                        c=colors[house],
+                        alpha=0.5,
+                        label=house,
+                        s=10)
 
         plt.legend(loc='upper right')
-        plt.title('Histogram of "%s" grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
+        plt.title('Scatter plot of "%s" vs "%s" grades among the different Hogwarts houses'
+                  % (self.data_set.data_set[0][col_nb_1],self.data_set.data_set[0][col_nb_2]))
+        plt.xlabel(self.data_set.data_set[0][col_nb_1])
+        plt.ylabel(self.data_set.data_set[0][col_nb_2])
         plt.show(block=True)
 
 
@@ -68,10 +64,12 @@ class ScatterPlotPerHouse:
 if __name__=='__main__':
     '''You have to run it with python3'''
     try:
-        col_nb = int(sys.argv[1])
+        col_nb_1 = int(sys.argv[1])
+        col_nb_2 = int(sys.argv[2])
     except:
-        col_nb = 16
+        col_nb_1 = 6
+        col_nb_2 = 16
 
-    h = HistogramPerHouse()
-    h.Plot(col_nb)
+    sc = ScatterPlotPerHouse()
+    sc.Plot(col_nb_1, col_nb_2)
 

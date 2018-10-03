@@ -48,6 +48,8 @@ class HistogramPerHouse:
 
         plt.legend(loc='upper right')
         plt.title('Histogram of "%s" grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
+        plt.xlabel("Grade")
+        plt.ylabel("Count")
         plt.show(block=True)
 
 
