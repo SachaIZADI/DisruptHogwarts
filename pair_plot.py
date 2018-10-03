@@ -25,8 +25,6 @@ class PairPlot:
 
     def Plot(self):
 
-        # ajouter les labels
-
         plt.figure(figsize=self.fig_size)
         SMALL_SIZE = 5
         plt.rc('xtick', labelsize=SMALL_SIZE)
@@ -51,7 +49,8 @@ class PairPlot:
                     sc = ScatterPlotPerHouse(path_to_data_set=self.path_to_data_set, legend=False, size=1)
                     sc.Plot(self.numeric_features[j],self.numeric_features[i])
 
-
+        handles, labels = ax.get_legend_handles_labels()
+        plt.figlegend(handles, labels, loc='lower right', prop={'size': 6})
 
 
 if __name__=='__main__':
@@ -59,7 +58,7 @@ if __name__=='__main__':
 
     try:
         max_nb_features = int(sys.argv[1])
-        fig_size = (int(sys.argv[2]),int(sys.argv[3]))
+        fig_size = (int(sys.argv[2]), int(sys.argv[3]))
 
         pp = PairPlot(max_nb_features=max_nb_features, fig_size=fig_size)
         pp.extractNumericFeatures()
