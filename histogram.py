@@ -28,26 +28,38 @@ class HistogramPerHouse:
         unique_houses = set(houses)
         for house in unique_houses:
             full_list += to_plot[house]
+
         s = Statistics(full_list)
         min = s.Quartile(0)
         max = s.Quartile(1)
         bins = np.linspace(min, max, 100)
 
+        colors = {
+            'Hufflepuff':'c',
+            'Ravenclaw':'orange',
+            'Slytherin':'g',
+            'Gryffindor':'r',
+        }
+
         plt.figure(figsize=(10, 5))
 
         for house in unique_houses:
-            plt.hist(to_plot[house], bins, alpha=0.5, label=house)
+            plt.hist(to_plot[house], bins, alpha=0.5, label=house, color=colors[house])
 
         plt.legend(loc='upper right')
-        plt.title('Histogram of %s grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
+        plt.title('Histogram of "%s" grades among the different Hogwarts houses' % self.data_set.data_set[0][col_nb])
         plt.show(block=True)
 
 
 
 if __name__=='__main__':
     '''You have to run it with python3'''
+    try:
+        col_nb = int(sys.argv[1])
+    except:
+        col_nb = 16
 
-    col_nb = sys.argv[1]
     h = HistogramPerHouse()
-    h.Plot(int(col_nb))
+    h.Plot(col_nb)
+
 
