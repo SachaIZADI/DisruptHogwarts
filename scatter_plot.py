@@ -1,19 +1,36 @@
 import sys
-import os
 import matplotlib.pyplot as plt
-import numpy as np
-from describe import DataSet, Statistics
+from describe import DataSet
 
 
 class ScatterPlotPerHouse:
+    """
+    - A class to plot the scatter plot of a Hogwarts feature vs. another one
+    - Example to run:
+        from scatter_plot import ScatterPlotPerHouse
+        import matplotlib.pyplot as plt
+        sc = ScatterPlotPerHouse()
+        sc.Plot(8,9)
+        plt.show()
+    """
 
     def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True, size=10):
+        """
+        :param path_to_data_set: a string. The path to the dataset.
+        :param legend: a boolean. If legend is False, only the histogram is plotted. If legend is True, titles, axis legend, etc. are plotted.
+        :param size: an int. The size of the points in the scatter plot.
+        """
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
         self.legend = legend
         self.size = size
 
     def Plot(self, col_nb_1, col_nb_2):
+        """
+        Plotting function
+        :param col_nb_1: integer. The position of the 1st column / feature to plot.
+        :param col_nb_2: integer. The position of the 2nd column / feature to plot.
+        """
         feature_1 = self.data_set.extractColumn(col_nb=col_nb_1, convert_to_float=True)[1:]
         feature_2 = self.data_set.extractColumn(col_nb=col_nb_2, convert_to_float=True)[1:]
         houses = self.data_set.extractColumn(col_nb=1)[1:]
@@ -63,7 +80,12 @@ class ScatterPlotPerHouse:
 
 
 if __name__=='__main__':
-    '''You have to run it with python3'''
+    '''
+    - How to run it: 
+        python3 scatter_plot.py
+        python3 scatter_plot.py 9 10
+    - /!\ Make sure to use python3 and not python2 /!\ 
+    '''
     try:
         col_nb_1 = int(sys.argv[1])
         col_nb_2 = int(sys.argv[2])

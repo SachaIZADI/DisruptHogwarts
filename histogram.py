@@ -1,5 +1,4 @@
 import sys
-import os
 import matplotlib.pyplot as plt
 import numpy as np
 from describe import DataSet, Statistics
@@ -18,6 +17,7 @@ class HistogramPerHouse:
 
     def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True, granularity=100):
         """
+        :param path_to_data_set: a string. The path to the dataset.
         :param legend: a boolean. If legend is False, only the histogram is plotted. If legend is True, titles, axis legend, etc. are plotted.
         :param granularity: an integer. The number of barplots in the histogram.
         """

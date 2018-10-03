@@ -205,6 +205,7 @@ class DataSet:
         """
         Prints in a fancy way the statistics around the dataset.
         To be called in the __main__ from a terminal.
+        The function is "responsive", i.e. it will be differently displayed depending on the size of the terminal window.
         """
         rows, columns = os.popen('stty size', 'r').read().split()
         columns = int(columns)

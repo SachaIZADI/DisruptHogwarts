@@ -1,5 +1,4 @@
 import sys
-import os
 import matplotlib.pyplot as plt
 from histogram import HistogramPerHouse
 from scatter_plot import ScatterPlotPerHouse
@@ -7,8 +6,23 @@ from describe import DataSet
 
 
 class PairPlot:
+    """
+    - A class to plot the pair plot of many Hogwarts features.
+    - Example to run:
+        from pair_plot import PairPlot
+        import matplotlib.pyplot as plt
+        pp = PairPlot()
+        pp.Plot()
+        plt.show()
+    """
 
     def __init__(self, path_to_data_set='resources/dataset_train.csv', max_nb_features=4, fig_size=(8,8)):
+        """
+        :param path_to_data_set: a string. The path to the dataset.
+        :param max_nb_features: an integer. The number of features to analyze - analysis will start from the first feature (on the left) and continue until reaching the number max of features.
+                                This was necessary for the sake of readability (there are ~10 numeric features, which would lead to 10**2 = 100 plots to do.
+        :param fig_size: an integer tuple. The size of the figure to output.
+        """
         self.path_to_data_set = path_to_data_set
         self.data_set = DataSet(self.path_to_data_set)
         self.data_set.loadDataSet()
@@ -18,13 +32,19 @@ class PairPlot:
 
 
     def extractNumericFeatures(self):
+        """
+        Automatically extracts the numeric features in the dataset.
+        """
         for i in range(len(self.data_set.data_set[0])):
             if self.data_set.data_set[0][i] != 'Index' and self.data_set.isNumericFeature(i):
                 self.numeric_features += [i]
 
 
     def Plot(self):
-
+        """
+        Plotting function.
+        :return:
+        """
         plt.figure(figsize=self.fig_size)
         SMALL_SIZE = 5
         plt.rc('xtick', labelsize=SMALL_SIZE)
@@ -54,8 +74,12 @@ class PairPlot:
 
 
 if __name__=='__main__':
-    '''You have to run it with python3'''
-
+    '''
+    - How to run it: 
+        python3 pair_plot.py
+        python3 pair_plot.py 4 9 9
+    - /!\ Make sure to use python3 and not python2 /!\ 
+    '''
     try:
         max_nb_features = int(sys.argv[1])
         fig_size = (int(sys.argv[2]), int(sys.argv[3]))
