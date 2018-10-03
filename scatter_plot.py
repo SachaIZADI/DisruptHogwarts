@@ -43,7 +43,6 @@ class ScatterPlotPerHouse:
             'Gryffindor':'r',
         }
 
-        plt.figure(figsize=(10, 5))
 
         for house in unique_houses:
             plt.scatter(x=to_plot['feature_1'][house],
@@ -71,6 +70,7 @@ if __name__=='__main__':
         col_nb_1 = 6
         col_nb_2 = 16
 
+    plt.figure(figsize=(10, 5))
     sc = ScatterPlotPerHouse()
     sc.Plot(col_nb_1, col_nb_2)
     plt.show(block=True)

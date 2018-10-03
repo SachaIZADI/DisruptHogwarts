@@ -26,19 +26,19 @@ class PairPlot:
 
         # ca merde ici
 
-        plt.figure(figsize=(20, 20))
+        plt.figure(figsize=(8, 8))
 
         N = len(self.numeric_features[:3])
 
-        for i in self.numeric_features[:3]:
-            for j in self.numeric_features:
-                plt.subplot(N, N, j+i*N)
+        for i in range(N):
+            for j in range(N):
+                plt.subplot(N, N, 1+j+i*N)
                 if i == j:
                     h = HistogramPerHouse(path_to_data_set=self.path_to_data_set, legend=False)
-                    h.Plot(i)
+                    h.Plot(self.numeric_features[i])
                 else:
                     sc = ScatterPlotPerHouse(path_to_data_set=self.path_to_data_set, legend=False)
-                    sc.Plot(i,j)
+                    sc.Plot(self.numeric_features[i],self.numeric_features[j])
 
 
         plt.show(block=True)

@@ -42,8 +42,6 @@ class HistogramPerHouse:
             'Gryffindor':'r',
         }
 
-        plt.figure(figsize=(10, 5))
-
         for house in unique_houses:
             plt.hist(to_plot[house], bins, alpha=0.5, label=house, color=colors[house])
 
@@ -62,6 +60,7 @@ if __name__=='__main__':
     except:
         col_nb = 16
 
+    plt.figure(figsize=(10, 5))
     h = HistogramPerHouse()
     h.Plot(col_nb)
     plt.show(block=True)
