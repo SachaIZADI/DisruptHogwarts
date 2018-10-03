@@ -6,14 +6,32 @@ from describe import DataSet, Statistics
 
 
 class HistogramPerHouse:
+    """
+    - A class to plot the histogram of the Hogwarts features
+    - Example to run:
+        from histogram import HistogramPerHouse
+        import matplotlib.pyplot as plt
+        h = HistogramPerHouse()
+        h.Plot(8)
+        plt.show()
+    """
 
     def __init__(self, path_to_data_set='resources/dataset_train.csv', legend=True, granularity=100):
+        """
+        :param legend: a boolean. If legend is False, only the histogram is plotted. If legend is True, titles, axis legend, etc. are plotted.
+        :param granularity: an integer. The number of barplots in the histogram.
+        """
         self.data_set = DataSet(path_to_data_set)
         self.data_set.loadDataSet()
         self.legend = legend
-        self.granularity=granularity
+        self.granularity = granularity
+
 
     def Plot(self, col_nb):
+        """
+        The plotting function.
+        :param col_nb: integer. The position of the column / feature to plot.
+        """
         feature = self.data_set.extractColumn(col_nb=col_nb, convert_to_float=True)[1:]
         houses = self.data_set.extractColumn(col_nb=1)[1:]
 
@@ -55,7 +73,12 @@ class HistogramPerHouse:
 
 
 if __name__=='__main__':
-    '''You have to run it with python3'''
+    '''
+    - How to run it: 
+        python3 histogram.py
+        python3 histogram.py 9
+    - /!\ Make sure to use python3 and not python2 /!\ 
+    '''
     try:
         col_nb = int(sys.argv[1])
     except:
