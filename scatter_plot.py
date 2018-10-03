@@ -24,7 +24,7 @@ class ScatterPlotPerHouse:
                    }
 
         for i in range(len(houses)):
-            if feature_1[i] and feature_2[i] :
+            if feature_1[i] and feature_2[i]:
                 try:
                     to_plot['feature_1'][houses[i]] += [feature_1[i]]
                 except:
@@ -46,8 +46,8 @@ class ScatterPlotPerHouse:
 
 
         for house in unique_houses:
-            plt.scatter(x=to_plot['feature_2'][house],
-                        y=to_plot['feature_1'][house],
+            plt.scatter(x=to_plot['feature_1'][house],
+                        y=to_plot['feature_2'][house],
                         c=colors[house],
                         alpha=0.5,
                         label=house,
