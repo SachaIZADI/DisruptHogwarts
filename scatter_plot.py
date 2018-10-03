@@ -72,4 +72,3 @@ if __name__=='__main__':
 
     sc = ScatterPlotPerHouse()
     sc.Plot(col_nb_1, col_nb_2)
-
