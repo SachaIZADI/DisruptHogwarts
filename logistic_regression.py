@@ -1,13 +1,15 @@
 import numpy as np
 import math
+import json
+import os
 
 class LogisticRegression:
-
 
     def __init__(self, X, y=None, path_to_beta=None, optimizer='gradient_descent', optimizer_params={'alpha':0.5,'n':100}):
         self.X = X
         self.y = y
-        self.unique_labels = list(set(y))
+        if y is not None:
+            self.unique_labels = list(set(y))
         self.optimizer = optimizer
         self.optimizer_params = optimizer_params
         if path_to_beta is None :
@@ -16,8 +18,12 @@ class LogisticRegression:
                 self.beta[label] = np.random.uniform(-5, 5, X.shape[1])
             self.beta[self.unique_labels[-1]] = np.array([0 for i in range(X.shape[1])])
         else:
-            #ToDo: Load beta
-            self.beta=None
+            dirname = os.path.dirname(__file__)
+            file_name = os.path.join(dirname, path_to_beta)
+            with open(file_name,'r') as f:
+                self.beta = json.loads(f.read())
+            self.unique_labels = [key for key in self.beta]
+
 
 
     def imputation(self):
