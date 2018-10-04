@@ -41,5 +41,4 @@ Input: Run `python3 pair_plot.py` in your terminal
 
 Output: 
 
-<img src = "img/pairplot.png" height="250">
-<img src = "img/full_pair_plot.png" height="250">
+<img src = "img/pairplot.png" height="250"><img src = "img/full_pair_plot.png" height="250">
