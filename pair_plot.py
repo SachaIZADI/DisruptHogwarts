@@ -90,6 +90,13 @@ if __name__=='__main__':
         pp.extractNumericFeatures()
 
     except:
+
+        pp = PairPlot(max_nb_features=13,fig_size=(30, 30))
+        pp.extractNumericFeatures()
+        pp.Plot()
+        plt.savefig('img/full_pair_plot.png')
+        plt.clf()
+
         pp = PairPlot()
         pp.extractNumericFeatures()
 
