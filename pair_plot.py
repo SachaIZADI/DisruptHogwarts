@@ -4,6 +4,8 @@ from histogram import HistogramPerHouse
 from scatter_plot import ScatterPlotPerHouse
 from describe import DataSet
 
+# TODO : save l'image totale dans un fichier
+
 
 class PairPlot:
     """

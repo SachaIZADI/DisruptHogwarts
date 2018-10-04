@@ -2,6 +2,8 @@ import sys
 import matplotlib.pyplot as plt
 from describe import DataSet
 
+# TODO : mauvaise compréhension de la question
+
 
 class ScatterPlotPerHouse:
     """
