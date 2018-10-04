@@ -2,8 +2,6 @@ import sys
 import matplotlib.pyplot as plt
 from describe import DataSet
 
-# TODO : mauvaise compréhension de la question
-
 
 class ScatterPlotPerHouse:
     """
@@ -92,8 +90,8 @@ if __name__=='__main__':
         col_nb_1 = int(sys.argv[1])
         col_nb_2 = int(sys.argv[2])
     except:
-        col_nb_1 = 6
-        col_nb_2 = 16
+        col_nb_1 = 7
+        col_nb_2 = 9
 
     plt.figure(figsize=(10, 5))
     sc = ScatterPlotPerHouse()
