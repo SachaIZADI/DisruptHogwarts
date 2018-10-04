@@ -26,6 +26,7 @@ class LogisticRegression:
 
     def loss(self):
         # compute loss
+        # http://blog.datumbox.com/machine-learning-tutorial-the-multinomial-logistic-regression-softmax-regression/
         m = self.X.shape[0]
         loss = 0
         Z = 0
@@ -38,8 +39,37 @@ class LogisticRegression:
         loss = -1/m * loss
         return loss
 
+
+    def softmax(self,y):
+        Z = 0
+        for i in range(len(y)):
+            Z += y[i]
+        return y/Z
+
+
+
+    def probabilities(self, x):
+        probas = []
+        for i in range(len(self.unique_labels)):
+            probas += [math.exp(np.dot(self.beta[self.unique_labels[i]], x))]
+        probas = self.softmax(np.array(probas))
+
+        probas_labels = {}
+
+        for i in range(len(self.unique_labels)):
+            probas_labels[self.unique_labels[i]] = probas[i]
+
+        return probas_labels
+
+
     def gradient(self):
         #compute gradient
+
+        m = self.X.shape[0]
+        gradient = 0
+
+
+
         return
 
     def gradient_descent_step(self):
