@@ -3,7 +3,8 @@ import math
 
 class LogisticRegression:
 
-    def __init__(self, X, y=None, train=True, path_to_beta=None, optimizer='gradient_descent', optimizer_params={'alpha':0.5}):
+
+    def __init__(self, X, y=None, train=True, path_to_beta=None, optimizer='gradient_descent', optimizer_params={'alpha':0.5,'n':100}):
         self.X = X
         self.y = y
         self.unique_labels = list(set(y))
@@ -73,13 +74,22 @@ class LogisticRegression:
             for i in range(m):
                 probas = self.probabilities(self.X[i])
                 gradient[label] += self.X[i] * ((self.y[i]==label) - probas[label])
-            gradient[label] = 1/m * gradient[label]
+            gradient[label] = -1/m * gradient[label]
 
         return gradient
 
 
-    def gradient_descent_step(self):
-        return
+
+    def gradient_descent(self, show_progress=True):
+        params = self.optimizer_params
+        for i in range(params['n']):
+            for label in self.unique_labels :
+                gradient = self.gradient()
+                self.beta[label] = self.beta[label] - params['alpha']*gradient[label]
+
+            if show_progress and i%20==0:
+                print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
+
 
 
 
