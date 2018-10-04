@@ -3,16 +3,20 @@ import math
 import json
 import os
 
+#TODO: create a csv reader
+#TODO: mean imputation
+#TODO: preprocessing
+
 class LogisticRegression:
 
-    def __init__(self, X, y=None, path_to_beta=None, optimizer='gradient_descent', optimizer_params={'alpha':0.5,'n':100}):
+    def __init__(self, X, y=None, path_to_beta=None, optimizer='gradient_descent', optimizer_params={'alpha':0.05,'n':100}):
         self.X = X
         self.y = y
         if y is not None:
             self.unique_labels = list(set(y))
         self.optimizer = optimizer
         self.optimizer_params = optimizer_params
-        if path_to_beta is None :
+        if path_to_beta is None:
             self.beta = {}
             for label in self.unique_labels[:-1]:
                 self.beta[label] = np.random.uniform(-5, 5, X.shape[1])
@@ -52,7 +56,7 @@ class LogisticRegression:
 
 
 
-    def softmax(self,y):
+    def softmax(self, y):
         Z = 0
         for i in range(len(y)):
             Z += y[i]
@@ -109,7 +113,6 @@ class LogisticRegression:
                 # TODO : dynamic plotting of the optimization process
 
 
-
     def train(self):
         if self.optimizer == 'gradient_descent':
             self.gradient_descent()
@@ -118,7 +121,7 @@ class LogisticRegression:
             return
 
 
-    def predict(self,x):
+    def predict(self, x):
         probas = self.probabilities(x)
         return max(probas, key=probas.get)
 
