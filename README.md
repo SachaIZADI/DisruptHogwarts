@@ -66,3 +66,6 @@ To do so, we use the gradient descent algorithm that updates the values of the $
 
 #### Training the model
 TBC `python3 logreg_train.py resources/dataset_train.csv`
+
+#### Making predictions
+TBC `python3 logreg_predict.py resources/dataset_test.csv`
