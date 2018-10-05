@@ -38,8 +38,11 @@ def main():
 
     X = np.array([[d.data_set[i][j] for j in range(len(d.data_set[0])) if j not in to_remove]
                 for i in range(len(d.data_set))])
-    features = X[0,:]
+    #features = X[0,:]
     X = convert_to_float(X[1:,])
+
+    print(X.shape)
+
     y_col_nb = d.data_set[0].index('Hogwarts House')
     y = np.array(d.extractColumn(y_col_nb)[1:])
 

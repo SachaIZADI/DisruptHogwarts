@@ -23,7 +23,7 @@ class LogisticRegression:
             self.beta = {}
             for label in self.unique_labels[:-1]:
                 self.beta[label] = np.random.uniform(-5, 5, X.shape[1])
-            self.beta[self.unique_labels[-1]] = np.array([0 for i in range(X.shape[1])])
+            self.beta[self.unique_labels[-1]] = np.array([0.0 for i in range(X.shape[1])])
         else:
             dirname = os.path.dirname(__file__)
             file_name = os.path.join(dirname, path_to_beta)
@@ -103,7 +103,7 @@ class LogisticRegression:
     def gradient_descent(self, show_progress=True):
         params = self.optimizer_params
         for i in range(params['n']):
-            for label in self.unique_labels:
+            for label in self.unique_labels[:-1]:
                 full_gradient = self.full_gradient()
                 self.beta[label] = self.beta[label] - params['alpha']*full_gradient[label]
 
@@ -125,12 +125,17 @@ class LogisticRegression:
         with open(file_name, 'w+') as outfile:
 
             beta_json = {}
-            for label in self.beta :
+            for label in self.unique_labels:
                 beta_json[label] = list(self.beta[label])
             json.dump(beta_json, outfile)
 
 
-    def predict(self, x):
-        probas = self.probabilities(x)
-        return max(probas, key=probas.get)
+    def predict(self, X_to_predict=None):
+        if X_to_predict is None :
+            X_to_predict = self.X
+        prediction = []
+        for x in X_to_predict :
+            probas = self.probabilities(x)
+            prediction += [max(probas, key=probas.get)]
+        return prediction
 

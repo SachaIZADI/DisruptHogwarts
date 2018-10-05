@@ -38,7 +38,7 @@ class MeanImputation:
         for j in range(self.X.shape[1]):
             for i in range(self.X.shape[0]):
                 if np.isnan(self.X[i,j]):
-                    self.X[i,j] = self.mean_imputation_dict[j]
+                    self.X[i,j] = self.mean_imputation_dict[str(j)]
 
 
 
@@ -47,7 +47,7 @@ class Scaling:
 
     def __init__(self, X, path_to_scaling=None):
         self.X = X
-        self.path_to_means = path_to_scaling
+        self.path_to_scaling = path_to_scaling
         self.mean_dict = None
         self.std_dict = None
 
@@ -85,4 +85,4 @@ class Scaling:
             self.std_dict = scaling['std']
 
         for j in range(self.X.shape[1]):
-            self.X[:,j] = (self.X[:,j]-self.mean_dict[j])/self.std_dict[j]
+            self.X[:,j] = (self.X[:,j]-self.mean_dict[str(j)])/self.std_dict[str(j)]
