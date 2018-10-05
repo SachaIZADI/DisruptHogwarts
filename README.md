@@ -68,4 +68,8 @@ To do so, we use the gradient descent algorithm that updates the values of the $
 TBC `python3 logreg_train.py resources/dataset_train.csv`
 
 #### Making predictions
-TBC `python3 logreg_predict.py resources/dataset_test.csv`
+Input: Run `python3 logreg_predict.py resources/dataset_test.csv`
+
+Output:
+
+<img src = "img/output_predict.png" height="250">

@@ -41,8 +41,6 @@ def main():
     #features = X[0,:]
     X = convert_to_float(X[1:,])
 
-    print(X.shape)
-
     y_col_nb = d.data_set[0].index('Hogwarts House')
     y = np.array(d.extractColumn(y_col_nb)[1:])
 

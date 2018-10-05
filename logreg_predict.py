@@ -5,6 +5,7 @@ from preprocessing import MeanImputation, Scaling
 from describe import DataSet
 from utils import convert_to_float
 import numpy as np
+import csv
 
 
 def main():
@@ -28,11 +29,13 @@ def main():
         # remove other features
     ]
 
+    index_position = d.data_set[0].index('Index')
+    indexes = np.array([d.data_set[i][index_position]for i in range(len(d.data_set))])[1:]
+
     X = np.array([[d.data_set[i][j] for j in range(len(d.data_set[0])) if j not in to_remove]
                 for i in range(len(d.data_set))])
     #features = X[0,:]
     X = convert_to_float(X[1:,])
-    print(X.shape)
 
     m = MeanImputation(X, path_to_mean_imputation=os.path.join(dirname_prediction, 'mean_imputation.json'))
     m.transform()
@@ -41,7 +44,17 @@ def main():
     sc.transform()
 
     l = LogisticRegression(X=X, path_to_beta=os.path.join(dirname_prediction, 'beta.json'))
-    print(l.predict())
+    predictions = l.predict()
+
+
+
+    dirname = os.path.dirname(__file__)
+    file_name = os.path.join(dirname, 'resources/houses.csv')
+    with open(file_name, 'w+') as outfile:
+        writer = csv.writer(outfile, delimiter=',')
+        writer.writerow(['Index', 'Hogwarts House'])
+        for i in range(len(indexes)):
+            writer.writerow([indexes[i], predictions[i]])
 
 
 
