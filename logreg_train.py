@@ -45,11 +45,11 @@ def main():
 
     m = MeanImputation(X)
     m.train()
-
+    m.transform()
 
 
     l = LogisticRegression(X=X, y=y)
-    l.train()
+    #l.train()
 
 
 
