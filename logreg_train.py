@@ -48,6 +48,10 @@ def main():
     m.transform()
 
 
+    sc = Scaling(X)
+    sc.train()
+
+
     l = LogisticRegression(X=X, y=y)
     #l.train()
 

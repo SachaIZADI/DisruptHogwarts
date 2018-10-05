@@ -16,7 +16,7 @@ class MeanImputation:
     def train(self):
         self.mean_imputation_dict = {}
         for j in range(self.X.shape[1]):
-            feature = [x for x in self.X[:,j] if not np .isnan(x)]
+            feature = [x for x in self.X[:,j] if not np.isnan(x)]
             st = Statistics(feature)
             m = st.Mean()
             self.mean_imputation_dict[j] = m
@@ -51,10 +51,27 @@ class Scaling:
         self.mean_dict = None
         self.std_dict = None
 
+
     def train(self):
         self.mean_dict = {}
         self.std_dict = {}
-        return
+
+        for j in range(self.X.shape[1]):
+            feature = [x for x in self.X[:,j]]
+            st = Statistics(feature)
+            m = st.Mean()
+            std = st.Std()
+            self.mean_dict[j] = m
+            self.std_dict[j] = std
+
+        self.path_to_scaling = 'results/scaling_%s.json' % \
+                                       str(datetime.now()).replace(' ', '_').split('.')[0]
+        dirname = os.path.dirname(__file__)
+        file_name = os.path.join(dirname, self.path_to_scaling)
+        with open(file_name, 'w+') as outfile:
+            json.dump({'mean':self.mean_dict,
+                       'std':self.std_dict,},
+                      outfile)
 
     def transform(self):
         return
