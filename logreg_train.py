@@ -42,8 +42,9 @@ def main():
     y_col_nb = d.data_set[0].index('Hogwarts House')
     y = np.array(d.extractColumn(y_col_nb)[1:])
 
+
+
     l = LogisticRegression(X=X, y=y)
-    l.imputation()
     l.train()
 
 

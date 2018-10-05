@@ -34,17 +34,6 @@ class LogisticRegression:
                 self.beta = json.loads(f.read())
             self.unique_labels = [key for key in self.beta]
 
-
-
-    def imputation(self):
-        #impute missing values
-        return
-
-    def preprocessing(self):
-        #PCA / scaling
-        return
-
-
     def loss(self):
         # compute loss
         # http://blog.datumbox.com/machine-learning-tutorial-the-multinomial-logistic-regression-softmax-regression/
