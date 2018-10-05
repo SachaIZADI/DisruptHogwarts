@@ -50,6 +50,9 @@ def main():
 
     sc = Scaling(X)
     sc.train()
+    sc.transform()
+
+    print(X)
 
 
     l = LogisticRegression(X=X, y=y)

@@ -4,9 +4,6 @@ import json
 import os
 from datetime import datetime
 
-#TODO: create a csv reader
-#TODO: mean imputation
-#TODO: preprocessing
 
 class LogisticRegression:
 

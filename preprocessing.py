@@ -70,8 +70,20 @@ class Scaling:
         file_name = os.path.join(dirname, self.path_to_scaling)
         with open(file_name, 'w+') as outfile:
             json.dump({'mean':self.mean_dict,
-                       'std':self.std_dict,},
+                       'std':self.std_dict},
                       outfile)
 
+
+
     def transform(self):
-        return
+
+        if not self.mean_dict:
+            dirname = os.path.dirname(__file__)
+            file_name = os.path.join(dirname, self.path_to_scaling)
+            with open(file_name, 'r') as f:
+                scaling = json.loads(f.read())
+            self.mean_dict = scaling['mean']
+            self.std_dict = scaling['std']
+
+        for j in range(self.X.shape[1]):
+            self.X[:,j] = (self.X[:,j]-self.mean_dict[j])/self.std_dict[j]
