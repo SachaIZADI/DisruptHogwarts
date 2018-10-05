@@ -9,11 +9,16 @@ import os
 
 class LogisticRegression:
 
-    def __init__(self, X, y=None, path_to_beta=None, optimizer='gradient_descent', optimizer_params={'alpha':0.05,'n':100}):
+    def __init__(self, X, y=None,
+                 path_to_beta=None,
+                 regularization=None, C=1,
+                 optimizer='gradient_descent', optimizer_params={'alpha':0.05,'n':100}):
         self.X = X
         self.y = y
         if y is not None:
             self.unique_labels = list(set(y))
+        self.regularization = regularization
+        self.C = C
         self.optimizer = optimizer
         self.optimizer_params = optimizer_params
         if path_to_beta is None:
@@ -52,6 +57,11 @@ class LogisticRegression:
                 math.exp(np.dot(self.beta[self.y[i]], self.X[i])) / Z
             )
         loss = -1/m * loss
+
+        if self.regularization == 'l2':
+            for label in self.unique_labels:
+                loss += self.C * np.dot(self.beta[label], self.beta[label])
+
         return loss
 
 
@@ -97,6 +107,8 @@ class LogisticRegression:
                 full_gradient[label] += unit_gradient[label]
         for label in self.unique_labels:
             full_gradient[label] = -1/m * full_gradient[label]
+            if self.regularization=='l2':
+                full_gradient[label] += 2 * self.C * self.beta[label]
         return full_gradient
 
 
@@ -111,6 +123,7 @@ class LogisticRegression:
             if show_progress and i%20==0:
                 print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
                 # TODO : dynamic plotting of the optimization process
+        print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
 
 
     def train(self):

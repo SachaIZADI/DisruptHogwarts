@@ -47,6 +47,9 @@ Output:
 ### Logistic regression
 
 Formulas:
+
 <img src = "img/formula_proba.png" height="50">
+
 <img src = "img/formula_loss.png" height="50">
+
 <img src = "img/formula_gradient.png" height="50">
