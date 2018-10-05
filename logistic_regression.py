@@ -2,6 +2,7 @@ import numpy as np
 import math
 import json
 import os
+from datetime import datetime
 
 #TODO: create a csv reader
 #TODO: mean imputation
@@ -132,6 +133,15 @@ class LogisticRegression:
         #TODO : add other optimizers, SGD, Adam, Newton-Raphson
         else:
             return
+
+        dirname = os.path.dirname(__file__)
+        file_name = os.path.join(dirname, 'results/beta_%s.json' % str(datetime.now()).replace(' ','_').split('.')[0])
+        with open(file_name, 'w+') as outfile:
+
+            beta_json = {}
+            for label in self.beta :
+                beta_json[label] = list(self.beta[label])
+            json.dump(beta_json, outfile)
 
 
     def predict(self, x):
