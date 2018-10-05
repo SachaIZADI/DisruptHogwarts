@@ -121,7 +121,7 @@ class LogisticRegression:
             return
 
         dirname = os.path.dirname(__file__)
-        file_name = os.path.join(dirname, 'results/beta_%s.json' % str(datetime.now()).replace(' ','_').split('.')[0])
+        file_name = os.path.join(dirname, 'results/beta.json')
         with open(file_name, 'w+') as outfile:
 
             beta_json = {}

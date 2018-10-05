@@ -21,7 +21,7 @@ class MeanImputation:
             m = st.Mean()
             self.mean_imputation_dict[j] = m
 
-        self.path_to_mean_imputation = 'results/mean_imputation_%s.json' % str(datetime.now()).replace(' ', '_').split('.')[0]
+        self.path_to_mean_imputation = 'results/mean_imputation.json'
         dirname = os.path.dirname(__file__)
         file_name = os.path.join(dirname, self.path_to_mean_imputation)
         with open(file_name, 'w+') as outfile:
@@ -64,8 +64,7 @@ class Scaling:
             self.mean_dict[j] = m
             self.std_dict[j] = std
 
-        self.path_to_scaling = 'results/scaling_%s.json' % \
-                                       str(datetime.now()).replace(' ', '_').split('.')[0]
+        self.path_to_scaling = 'results/scaling.json'
         dirname = os.path.dirname(__file__)
         file_name = os.path.join(dirname, self.path_to_scaling)
         with open(file_name, 'w+') as outfile:

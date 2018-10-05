@@ -52,11 +52,8 @@ def main():
     sc.train()
     sc.transform()
 
-    print(X)
-
-
     l = LogisticRegression(X=X, y=y)
-    #l.train()
+    l.train()
 
 
 
