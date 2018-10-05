@@ -1,6 +1,7 @@
 import sys
 import os
 from logistic_regression import LogisticRegression
+from preprocessing import MeanImputation, Scaling
 from describe import DataSet
 from utils import convert_to_float
 import numpy as np
@@ -41,6 +42,9 @@ def main():
     X = convert_to_float(X[1:,])
     y_col_nb = d.data_set[0].index('Hogwarts House')
     y = np.array(d.extractColumn(y_col_nb)[1:])
+
+    m = MeanImputation(X)
+    m.train()
 
 
 
