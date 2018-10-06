@@ -18,7 +18,7 @@ class MeanImputation:
             feature = [x for x in self.X[:,j] if not np.isnan(x)]
             st = Statistics(feature)
             m = st.Mean()
-            self.mean_imputation_dict[str(j)] = m
+            self.mean_imputation_dict[j] = m
 
         self.path_to_mean_imputation = 'results/mean_imputation.json'
         dirname = os.path.dirname(__file__)
@@ -28,7 +28,9 @@ class MeanImputation:
 
 
     def transform(self):
+        loading_csv = False
         if not self.mean_imputation_dict:
+            loading_csv = True
             dirname = os.path.dirname(__file__)
             file_name = os.path.join(dirname, self.path_to_mean_imputation)
             with open(file_name, 'r') as f:
@@ -37,7 +39,10 @@ class MeanImputation:
         for j in range(self.X.shape[1]):
             for i in range(self.X.shape[0]):
                 if np.isnan(self.X[i,j]):
-                    self.X[i,j] = self.mean_imputation_dict[str(j)]
+                    if loading_csv:
+                        self.X[i,j] = self.mean_imputation_dict[str(j)]
+                    else:
+                        self.X[i, j] = self.mean_imputation_dict[j]
 
 
 
@@ -75,7 +80,9 @@ class Scaling:
 
     def transform(self):
 
+        loading_csv = False
         if not self.mean_dict:
+            loading_csv = True
             dirname = os.path.dirname(__file__)
             file_name = os.path.join(dirname, self.path_to_scaling)
             with open(file_name, 'r') as f:
@@ -84,4 +91,7 @@ class Scaling:
             self.std_dict = scaling['std']
 
         for j in range(self.X.shape[1]):
-            self.X[:,j] = (self.X[:,j]-self.mean_dict[str(j)])/self.std_dict[str(j)]
+            if loading_csv:
+                self.X[:,j] = (self.X[:,j]-self.mean_dict[str(j)])/self.std_dict[str(j)]
+            else:
+                self.X[:, j] = (self.X[:, j] - self.mean_dict[j]) / self.std_dict[j]
