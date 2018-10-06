@@ -30,10 +30,13 @@ class SplitTestTrain:
 
 class ConfusionMatrix:
 
-    def __init__(self, y_predict, y_true):
+    def __init__(self, y_predict, y_true, unique_labels=None):
         self.y_predict = y_predict
         self.y_true = y_true
-        self.unique_labels = list(set(self.y_true))
+        if unique_labels is None:
+            self.unique_labels = list(set(self.y_true))
+        else:
+            self.unique_labels = unique_labels
         self.confusion = None
 
     def getMatrix(self):

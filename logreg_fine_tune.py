@@ -53,14 +53,24 @@ def main():
     l = LogisticRegression(X=X_train, y=y_train)
     l.train()
 
+    y_predicted = l.predict()
+
+    cm1 = ConfusionMatrix(y_train, y_predicted)
+    cm1.getMatrix()
+    print('\n\n')
+    print('**************** Confusion Matrix on the training set ****************')
+    print('\n')
+    cm1.Print()
+
+
     y_predicted = l.predict(X_test)
 
-    cm = ConfusionMatrix(y_test, y_predicted)
-    cm.getMatrix()
+    cm2 = ConfusionMatrix(y_test, y_predicted, cm1.unique_labels)
+    cm2.getMatrix()
     print('\n\n')
-    print('**************** Confusion Matrix ****************')
+    print('**************** Confusion Matrix on the testing set ****************')
     print('\n')
-    cm.Print()
+    cm2.Print()
 
 
 if __name__=='__main__':
