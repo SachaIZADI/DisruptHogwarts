@@ -34,7 +34,7 @@ class ConfusionMatrix:
         self.y_true = y_true
         self.unique_labels = list(set(self.y_true))
 
-    def Compute(self):
+    def getMatrix(self):
         confusion = np.zeros(shape=(len(self.unique_labels),len(self.unique_labels)),dtype=int)
         # confusion[('true','predicted')] = nb true labels predicted as predicted
         for i in range(self.y_predict.shape[0]):

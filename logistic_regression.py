@@ -3,7 +3,6 @@ import math
 import json
 import os
 
-
 class LogisticRegression:
 
     def __init__(self, X, y=None,
@@ -122,7 +121,6 @@ class LogisticRegression:
         dirname = os.path.dirname(__file__)
         file_name = os.path.join(dirname, 'results/beta.json')
         with open(file_name, 'w+') as outfile:
-
             beta_json = {}
             for label in self.unique_labels:
                 beta_json[label] = list(self.beta[label])
@@ -130,11 +128,10 @@ class LogisticRegression:
 
 
     def predict(self, X_to_predict=None):
-        if X_to_predict is None :
+        if X_to_predict is None:
             X_to_predict = self.X
         prediction = []
-        for x in X_to_predict :
+        for x in X_to_predict:
             probas = self.probabilities(x)
             prediction += [max(probas, key=probas.get)]
         return prediction
-
