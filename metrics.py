@@ -1,5 +1,6 @@
 import numpy as np
-import itertools
+import os
+import sys
 
 
 
@@ -33,21 +34,30 @@ class ConfusionMatrix:
         self.y_predict = y_predict
         self.y_true = y_true
         self.unique_labels = list(set(self.y_true))
+        self.confusion = None
 
     def getMatrix(self):
-        confusion = np.zeros(shape=(len(self.unique_labels),len(self.unique_labels)),dtype=int)
+        self.confusion = np.zeros(shape=(len(self.unique_labels),len(self.unique_labels)),dtype=int)
         # confusion[('true','predicted')] = nb true labels predicted as predicted
         for i in range(self.y_predict.shape[0]):
-            confusion[self.unique_labels.index(self.y_true[i]), self.unique_labels.index(self.y_predict[i])] += 1
+            self.confusion[self.unique_labels.index(self.y_true[i]), self.unique_labels.index(self.y_predict[i])] += 1
 
-        confusion = np.vstack((self.unique_labels, confusion))
+        self.confusion = np.vstack((self.unique_labels, self.confusion))
         new_col = np.array([' ']+self.unique_labels)
         new_col.shape = (new_col.shape[0],1)
-        confusion = np.hstack((new_col, confusion))
+        self.confusion = np.hstack((new_col, self.confusion))
+        return(self.confusion)
 
-        return(confusion)
 
-    # TODO: better print the confusion matrix
+    def Print(self):
+        cell_size = len(max(self.unique_labels, key=len))
+        template = '{:<%ds}   ' % cell_size
+        for i in range(self.confusion.shape[0]):
+            to_print = ''
+            for j in range(self.confusion.shape[1]):
+                to_print += template.format(str(self.confusion[i,j]))
+            to_print += '\n'
+            sys.stdout.write(to_print)
 
 
 

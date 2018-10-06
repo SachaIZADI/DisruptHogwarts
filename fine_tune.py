@@ -56,10 +56,8 @@ def main():
     y_predicted = l.predict(X_test)
 
     cm = ConfusionMatrix(y_test, y_predicted)
-    confusion_matrix = cm.getMatrix()
-
-    print(confusion_matrix)
-    #TODO: better print the confusion matrix
+    cm.getMatrix()
+    cm.Print()
 
 
 if __name__=='__main__':
