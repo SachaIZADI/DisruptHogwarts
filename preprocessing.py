@@ -18,7 +18,7 @@ class MeanImputation:
             feature = [x for x in self.X[:,j] if not np.isnan(x)]
             st = Statistics(feature)
             m = st.Mean()
-            self.mean_imputation_dict[j] = m
+            self.mean_imputation_dict[str(j)] = m
 
         self.path_to_mean_imputation = 'results/mean_imputation.json'
         dirname = os.path.dirname(__file__)
