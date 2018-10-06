@@ -64,7 +64,16 @@ To do so, we use the gradient descent algorithm that updates the values of the $
 <img src = "img/formula_gradient.png" height="50">
 
 
-#### Training the model
+#### Fine-tuning the model and making experiments
+Use the following script to split the model into a training and a testing set (by default 70%-30%), train a logistic regression and compute the confusion matrix. Think of this script as a lab to run experiments.
+
+Input: Run `python3 logreg_fine_tune.py resources/dataset_train.csv`
+
+Output: *NB: true labels are on the 1st row & predicted labels are on the 1st column.*
+
+<img src = "img/confusion_matrix.png" height="250">
+
+#### Training the model on the full dataset
 TBC `python3 logreg_train.py resources/dataset_train.csv`
 
 #### Making predictions

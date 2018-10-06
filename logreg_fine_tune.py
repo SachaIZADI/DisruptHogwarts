@@ -57,6 +57,9 @@ def main():
 
     cm = ConfusionMatrix(y_test, y_predicted)
     cm.getMatrix()
+    print('\n\n')
+    print('**************** Confusion Matrix ****************')
+    print('\n')
     cm.Print()
 
 
