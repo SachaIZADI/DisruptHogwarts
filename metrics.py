@@ -47,6 +47,8 @@ class ConfusionMatrix:
 
         return(confusion)
 
+    # TODO: better print the confusion matrix
+
 
 
 

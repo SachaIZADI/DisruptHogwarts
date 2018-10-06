@@ -59,6 +59,7 @@ def main():
     confusion_matrix = cm.getMatrix()
 
     print(confusion_matrix)
+    #TODO: better print the confusion matrix
 
 
 if __name__=='__main__':
