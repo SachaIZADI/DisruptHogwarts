@@ -33,7 +33,18 @@ def main():
         d.data_set[0].index('Birthday'),
         d.data_set[0].index('Best Hand'),
         d.data_set[0].index('Hogwarts House'),
-        # remove other features
+
+        # Tests 7/10/18
+        d.data_set[0].index('Arithmancy'),
+        d.data_set[0].index('Defense Against the Dark Arts'),
+        d.data_set[0].index('Divination'),
+        d.data_set[0].index('Muggle Studies'),
+        d.data_set[0].index('History of Magic'),
+        d.data_set[0].index('Transfiguration'),
+        d.data_set[0].index('Potions'),
+        d.data_set[0].index('Care of Magical Creatures'),
+        d.data_set[0].index('Charms'),
+        d.data_set[0].index('Flying'),
     ]
 
     X = np.array([[d.data_set[i][j] for j in range(len(d.data_set[0])) if j not in to_remove]

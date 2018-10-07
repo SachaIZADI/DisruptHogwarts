@@ -8,7 +8,7 @@ class LogisticRegression:
     def __init__(self, X, y=None,
                  path_to_beta=None,
                  regularization=None, C=1,
-                 optimizer='gradient_descent', optimizer_params={'alpha':0.05,'n':100}):
+                 optimizer='gradient_descent', optimizer_params={'alpha':0.5,'n':100}):
         self.X = X
         self.y = y
         if y is not None:
@@ -34,8 +34,8 @@ class LogisticRegression:
         # http://blog.datumbox.com/machine-learning-tutorial-the-multinomial-logistic-regression-softmax-regression/
         m = self.X.shape[0]
         loss = 0
-        Z = 0
         for i in range(m):
+            Z = 0
             for j in range(len(self.unique_labels)):
                 Z += math.exp(np.dot(self.beta[self.unique_labels[j]], self.X[i]))
             loss += math.log(
