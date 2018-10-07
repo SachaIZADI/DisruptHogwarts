@@ -86,3 +86,11 @@ Input: Run `python3 logreg_predict.py resources/dataset_test.csv`
 Output:
 
 <img src = "img/output_predict.png" height="100">
+
+
+#### Try other optimizer: eg. Stochastic Gradient Descent
+Input: Run `python3 logreg_fine_tune_sgd.py resources/dataset_train.csv`
+
+Output:
+
+<img src = "img/sgd.png" height="300">
