@@ -74,7 +74,11 @@ Output: *NB: true labels are on the 1st row & predicted labels are on the 1st co
 <img src = "img/confusion_matrix.png" height="250">
 
 #### Training the model on the full dataset
-TBC `python3 logreg_train.py resources/dataset_train.csv`
+Input: Run `python3 logreg_train.py resources/dataset_train.csv`
+
+Output:
+
+<img src = "img/output_train.png" height="250">
 
 #### Making predictions
 Input: Run `python3 logreg_predict.py resources/dataset_test.csv`
