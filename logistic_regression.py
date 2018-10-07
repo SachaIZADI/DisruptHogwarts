@@ -123,20 +123,20 @@ class LogisticRegression:
                 Xk = self.X[indexes[k*b:max((k+1)*b, m)]]
                 yk = self.y[indexes[k*b:max((k+1)*b, m)]]
                 gradient = {}
-                for label in self.unique_labels[-1]:
+                for label in self.unique_labels[:-1]:
                     gradient[label] = 0
                 for j in range(Xk.shape[0]):
                     grad = self.unit_gradient(Xk[j], yk[j])
-                    for label in self.unique_labels:
-                        gradient[label] += grad[label]
+                    for label in self.unique_labels[:-1]:
+                        gradient[label] += -(1/Xk.shape[0]) * grad[label]
 
                 for label in self.unique_labels[:-1]:
                     self.beta[label] = self.beta[label] - params['alpha'] * gradient[label]
 
-                if show_progress and i % 20 == 0:
-                    print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
-                    # TODO : dynamic plotting of the optimization process
-            print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
+                if show_progress and k%10==0 :
+                    print("iteration n°%s / batch n°%s - - - - - - - - - - - loss: %s" % (i, k, self.loss()))
+                # TODO : dynamic plotting of the optimization process
+        print("End of the training phase - - - - - - - - - - - loss: %s" % self.loss())
 
 
 
