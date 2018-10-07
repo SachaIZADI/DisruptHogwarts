@@ -78,11 +78,11 @@ Input: Run `python3 logreg_train.py resources/dataset_train.csv`
 
 Output:
 
-<img src = "img/output_train.png" height="250">
+<img src = "img/output_train.png" height="100">
 
 #### Making predictions
 Input: Run `python3 logreg_predict.py resources/dataset_test.csv`
 
 Output:
 
-<img src = "img/output_predict.png" height="250">
+<img src = "img/output_predict.png" height="100">
