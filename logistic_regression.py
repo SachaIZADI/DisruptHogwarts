@@ -2,6 +2,7 @@ import numpy as np
 import math
 import json
 import os
+import random
 
 class LogisticRegression:
 
@@ -101,8 +102,8 @@ class LogisticRegression:
     def gradient_descent(self, show_progress=True):
         params = self.optimizer_params
         for i in range(params['n']):
+            full_gradient = self.full_gradient()
             for label in self.unique_labels[:-1]:
-                full_gradient = self.full_gradient()
                 self.beta[label] = self.beta[label] - params['alpha']*full_gradient[label]
 
             if show_progress and i%20==0:
@@ -111,10 +112,40 @@ class LogisticRegression:
         print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
 
 
+    def stochastic_gradient_descent(self,show_progress=True):
+        params = self.optimizer_params
+        for i in range(params['n']):
+            m = self.X.shape[0]
+            indexes = [i for i in range(m)]
+            random.shuffle(indexes)
+            b = params['batch_size']
+            for k in range(m//b+1):
+                Xk = self.X[indexes[k*b:max((k+1)*b, m)]]
+                yk = self.y[indexes[k*b:max((k+1)*b, m)]]
+                gradient = {}
+                for label in self.unique_labels[-1]:
+                    gradient[label] = 0
+                for j in range(Xk.shape[0]):
+                    grad = self.unit_gradient(Xk[j], yk[j])
+                    for label in self.unique_labels:
+                        gradient[label] += grad[label]
+
+                for label in self.unique_labels[:-1]:
+                    self.beta[label] = self.beta[label] - params['alpha'] * gradient[label]
+
+                if show_progress and i % 20 == 0:
+                    print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
+                    # TODO : dynamic plotting of the optimization process
+            print("iteration n°%s - - - - - - - - - - - loss: %s" % (i, self.loss()))
+
+
+
     def train(self):
         if self.optimizer == 'gradient_descent':
             self.gradient_descent()
-        #TODO : add other optimizers, SGD, Adam, Newton-Raphson
+        elif self.optimizer == 'sgd':
+            self.stochastic_gradient_descent()
+        #TODO : add other optimizers Adam, Newton-Raphson
         else:
             return
 
