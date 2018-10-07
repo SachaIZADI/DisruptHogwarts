@@ -93,4 +93,4 @@ Input: Run `python3 logreg_fine_tune_sgd.py resources/dataset_train.csv`
 
 Output:
 
-<img src = "img/sgd.png" height="300">
+<img src = "img/sgd.png" height="400">
