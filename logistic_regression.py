@@ -27,8 +27,8 @@ class LogisticRegression:
                  regularization=None, C=1,
                  optimizer='gradient_descent', optimizer_params={'alpha':0.5,'n':100}):
         '''
-        :param X: a np.array of floats. The feature matrix.
-        :param y: a np.array of STRINGS. The associated labels.
+        :param X: a 2D np.array of floats. The feature matrix.
+        :param y: a 1D np.array of STRINGS. The associated labels.
         :param path_to_beta: a string. The path to a JSON file containing the values of beta with which you want to make the prediction.
         :param regularization: None or 'l2'. If l2 is specified, the algorithm will perform a l2 regularization.
         :param C: a positive float. The hyperparameter of the l2 regularization.
@@ -101,7 +101,7 @@ class LogisticRegression:
     def probabilities(self, x):
         '''
         Computes the probabilities P(y=j|X=x) with the current value of beta.
-        :param x: a np.array of floats.
+        :param x: a 1D np.array of floats.
         '''
         probas = []
         for i in range(len(self.unique_labels)):
@@ -119,7 +119,7 @@ class LogisticRegression:
     def unit_gradient(self, x, y):
         '''
         Computes the gradient contribution of a single individual: ∂L(x_i,y_i)/∂ß
-        :param x: a np.array of floats.
+        :param x: a 1D np.array of floats.
         :param y: a string.
         '''
         gradient = {}
@@ -223,7 +223,7 @@ class LogisticRegression:
     def predict(self, X_to_predict=None):
         '''
         Infering values on new, unknown examples.
-        :param X_to_predict: an np.array of new examples (X_to_predict.shape[1] = X.shape[1]). If X_to_predict is None, the prediction is made over the training features matrix.
+        :param X_to_predict: an 2D np.array of new examples (X_to_predict.shape[1] = X.shape[1]). If X_to_predict is None, the prediction is made over the training features matrix.
         '''
         if X_to_predict is None:
             X_to_predict = self.X
