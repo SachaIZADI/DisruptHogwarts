@@ -5,7 +5,7 @@ from preprocessing import MeanImputation, Scaling
 from describe import DataSet
 from utils import convert_to_float
 import numpy as np
-from metrics import ConfusionMatrix, SplitTestTrain
+from metrics import ConfusionMatrix, SplitTrainTest
 
 
 def main():
@@ -53,7 +53,7 @@ def main():
     sc.train()
     sc.transform()
 
-    sp = SplitTestTrain(X, y)
+    sp = SplitTrainTest(X, y)
     sp.Split()
     X_train = sp.X_train
     y_train = sp.y_train
