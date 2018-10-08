@@ -5,11 +5,38 @@ import os
 import random
 
 class LogisticRegression:
+    '''
+    - A class more or less similar to scikit's logistic regression
+    - How to use it :
+        from logistic_regression import LogisticRegression
+        import numpy as np
+        X = np.array([[1,2,3],[2,3,4],[3,4,5]])
+        y = np.array(['a','b','a'])
+        # Instantiate a LogisticRegression object
+        l = LogisticRegression(X,y)
+        # Train the model
+        l.train()
+        # Make predictions
+        x = np.array([3,2,1])
+        l.predict(x)
+    '''
+
 
     def __init__(self, X, y=None,
                  path_to_beta=None,
                  regularization=None, C=1,
                  optimizer='gradient_descent', optimizer_params={'alpha':0.5,'n':100}):
+        '''
+        :param X: a np.array of floats. The feature matrix.
+        :param y: a np.array of STRINGS. The associated labels.
+        :param path_to_beta: a string. The path to a JSON file containing the values of beta with which you want to make the prediction.
+        :param regularization: None or 'l2'. If l2 is specified, the algorithm will perform a l2 regularization.
+        :param C: a positive float. The hyperparameter of the l2 regularization.
+        :param optimizer: 'gradient_descent' or 'sgd'. Chose one of the 2 optimizers implemented.
+        :param optimizer_params: a dictionary. The values of the hyperparameters used to run the optimizers.
+                    if optimizer is 'gradient_descent' : optimizer_params={'alpha':0.5,'n':100}, where 'alpha' is the learning rate and 'n' is the number of iterations.
+                    if optimizer is 'sgd' : optimizer_params={'alpha':0.5,'n':5,'batch_size':16}, where ... idem ... and 'batch_size' is the size of the mini batches used to compute the estimate of the gradient.
+        '''
         self.X = X
         self.y = y
         if y is not None:
@@ -19,20 +46,27 @@ class LogisticRegression:
         self.optimizer = optimizer
         self.optimizer_params = optimizer_params
         if path_to_beta is None:
+            # if no path_to_beta is specified, we initialize beta randomly.
             self.beta = {}
             for label in self.unique_labels[:-1]:
                 self.beta[label] = np.random.uniform(-5, 5, X.shape[1])
+            # NB : due to model identification issues, we 'stabilize' the algorithm by standardizing the last value of beta to [0,0,...,0]^T
             self.beta[self.unique_labels[-1]] = np.array([0.0 for i in range(X.shape[1])])
         else:
+            # if path_to_beta is specified, we load the values of beta from the json file.
             dirname = os.path.dirname(__file__)
             file_name = os.path.join(dirname, path_to_beta)
             with open(file_name,'r') as f:
                 self.beta = json.loads(f.read())
             self.unique_labels = [key for key in self.beta]
 
+
+
     def loss(self):
-        # compute loss
-        # http://blog.datumbox.com/machine-learning-tutorial-the-multinomial-logistic-regression-softmax-regression/
+        '''
+        - Compute the loss of the model. Loss = - log-likelihood
+        - More details can be found here: http://blog.datumbox.com/machine-learning-tutorial-the-multinomial-logistic-regression-softmax-regression/
+        '''
         m = self.X.shape[0]
         loss = 0
         for i in range(m):
@@ -53,6 +87,10 @@ class LogisticRegression:
 
 
     def softmax(self, y):
+        '''
+        Compute the softmax of an array y.
+        :param y: a np.array of floats.
+        '''
         Z = 0
         for i in range(len(y)):
             Z += y[i]
@@ -61,6 +99,10 @@ class LogisticRegression:
 
 
     def probabilities(self, x):
+        '''
+        Computes the probabilities P(y=j|X=x) with the current value of beta.
+        :param x: a np.array of floats.
+        '''
         probas = []
         for i in range(len(self.unique_labels)):
             probas += [math.exp(np.dot(self.beta[self.unique_labels[i]], x))]
@@ -75,6 +117,11 @@ class LogisticRegression:
 
 
     def unit_gradient(self, x, y):
+        '''
+        Computes the gradient contribution of a single individual: ∂L(x_i,y_i)/∂ß
+        :param x: a np.array of floats.
+        :param y: a string.
+        '''
         gradient = {}
         for label in self.unique_labels:
             probas = self.probabilities(x)
@@ -83,6 +130,9 @@ class LogisticRegression:
 
 
     def full_gradient(self):
+        '''
+        Computes the full gradient, averaging the contributions of all individuals in the full training set: 1/m ∑ ∂L(x_i,y_i)/∂ß
+        '''
         m = self.X.shape[0]
         full_gradient = {}
         for label in self.unique_labels:
@@ -100,6 +150,10 @@ class LogisticRegression:
 
 
     def gradient_descent(self, show_progress=True):
+        '''
+        Runs the gradient descent algorithm (using the full gradient over the full training set).
+        :param show_progress: a boolean. If True, will print regularly the progress of the learning algorithm.
+        '''
         params = self.optimizer_params
         for i in range(params['n']):
             full_gradient = self.full_gradient()
@@ -113,6 +167,10 @@ class LogisticRegression:
 
 
     def stochastic_gradient_descent(self,show_progress=True):
+        '''
+        Runs the stochastic gradient descent algorithm (computing an estimate of the gradient over minibatches of individuals randomly sampled from the training set).
+        :param show_progress: a boolean. If True, will print regularly the progress of the learning algorithm.
+        '''
         params = self.optimizer_params
         for i in range(params['n']):
             m = self.X.shape[0]
@@ -141,6 +199,9 @@ class LogisticRegression:
 
 
     def train(self):
+        '''
+        Executes the training depending on the choice of optimizer specified when initializing the model.
+        '''
         if self.optimizer == 'gradient_descent':
             self.gradient_descent()
         elif self.optimizer == 'sgd':
@@ -149,6 +210,7 @@ class LogisticRegression:
         else:
             return
 
+        # Beta is automatically saved in a json file in results
         dirname = os.path.dirname(__file__)
         file_name = os.path.join(dirname, 'results/beta.json')
         with open(file_name, 'w+') as outfile:
@@ -159,6 +221,10 @@ class LogisticRegression:
 
 
     def predict(self, X_to_predict=None):
+        '''
+        Infering values on new, unknown examples.
+        :param X_to_predict: an np.array of new examples (X_to_predict.shape[1] = X.shape[1]). If X_to_predict is None, the prediction is made over the training features matrix.
+        '''
         if X_to_predict is None:
             X_to_predict = self.X
         prediction = []
