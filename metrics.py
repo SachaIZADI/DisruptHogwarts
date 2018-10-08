@@ -1,10 +1,9 @@
 import numpy as np
-import os
 import sys
 
 
 
-class SplitTestTrain:
+class SplitTrainTest:
 
     def __init__(self, X, y, ratio=0.7):
         self.X = X

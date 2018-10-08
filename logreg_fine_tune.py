@@ -5,11 +5,15 @@ from preprocessing import MeanImputation, Scaling
 from describe import DataSet
 from utils import convert_to_float
 import numpy as np
-from metrics import ConfusionMatrix, SplitTestTrain
+from metrics import ConfusionMatrix, SplitTrainTest
 
 
 def main():
+    '''
+    Use this script to run experiments and fine-tune the algoritms
+    '''
 
+    # Load the dataset
     file_name = sys.argv[1]
     dirname = os.path.dirname(__file__)
     file_name = os.path.join(dirname, file_name)
@@ -17,6 +21,7 @@ def main():
     d = DataSet(file_name)
     d.loadDataSet()
 
+    # Remove useless features (not numeric + bad regressors).
     to_remove = [
         d.data_set[0].index('Index'),
         d.data_set[0].index('First Name'),
@@ -45,25 +50,29 @@ def main():
     y_col_nb = d.data_set[0].index('Hogwarts House')
     y = np.array(d.extractColumn(y_col_nb)[1:])
 
+    # Impute missing values
     m = MeanImputation(X)
     m.train()
     m.transform()
 
+    # Scale the variables
     sc = Scaling(X)
     sc.train()
     sc.transform()
 
-    sp = SplitTestTrain(X, y)
+    # Split the dataset in a training and testing set
+    sp = SplitTrainTest(X, y)
     sp.Split()
     X_train = sp.X_train
     y_train = sp.y_train
     X_test = sp.X_test
     y_test = sp.y_test
 
-
+    # Train a logistic regression model
     l = LogisticRegression(X=X_train, y=y_train)
     l.train()
 
+    # Compute the confusion matrix over the training set
     y_predicted = l.predict()
 
     cm1 = ConfusionMatrix(y_train, y_predicted)
@@ -73,7 +82,7 @@ def main():
     print('\n')
     cm1.Print()
 
-
+    # Compute the confusion matrix over the testing set
     y_predicted = l.predict(X_test)
 
     cm2 = ConfusionMatrix(y_test, y_predicted, cm1.unique_labels)
@@ -85,4 +94,9 @@ def main():
 
 
 if __name__=='__main__':
+    '''
+    - How to run it:
+        python3 logreg_fine_tune.py resources/dataset_train.csv
+    - /!\ Make sure to use python3 and not python2 /!\ 
+    '''
     main()
