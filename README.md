@@ -4,6 +4,8 @@ Disrupt Hogwarts is a project done during the 2-week stay at Ecole 42. The aim w
 
 More prosaically, the project consisted in implementing from scratch (no scikit-learn) a Logistic Regression model.
 
+The model was then wrapped into a Flask API (GitHub repo available [here](https://github.com/SachaIZADI/DisruptHogwarts_API))
+
 ## Clone the repo
 Run `git clone https://github.com/SachaIZADI/DisruptHogwarts.git`in your shell.
 
