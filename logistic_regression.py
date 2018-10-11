@@ -144,7 +144,7 @@ class LogisticRegression:
         for label in self.unique_labels:
             full_gradient[label] = -1/m * full_gradient[label]
             if self.regularization=='l2':
-                full_gradient[label] += 2 * self.C * self.beta[label]
+                full_gradient[label] += 2 * self.C * np.array(self.beta[label])
         return full_gradient
 
 
